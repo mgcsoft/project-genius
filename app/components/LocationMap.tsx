@@ -1,6 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import StopMarker from "./StopMarker";
+import StopDetails from "./StopDetails";
+import ProximityNotification from "./ProximityNotification";
+import TourProgress from "./TourProgress";
+import { TOUR_STOPS } from "@/app/data/tourStops";
+import { useTourProgress } from "@/app/hooks/useTourProgress";
+import { useProximity } from "@/app/hooks/useProximity";
+import { saveNotificationState, hasShownNotification } from "@/app/utils/storage";
 
 // GPS coordinates for the 4 corners of the map image (TU/e Campus)
 const MAP_BOUNDS = {
@@ -21,6 +29,15 @@ export default function LocationMap() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [isLandscape, setIsLandscape] = useState(true);
+  const [selectedStop, setSelectedStop] = useState<number | null>(null);
+  const [notificationStop, setNotificationStop] = useState<number | null>(null);
+
+  // Custom hooks
+  const { visitedStops, markAsVisited, isVisited, resetProgress } = useTourProgress();
+  const { nearbyStops, isNearby, getDistance, getNearestStop } = useProximity(
+    userPosition,
+    TOUR_STOPS
+  );
 
   // Convert GPS coordinates to percentage positions (0-100%)
   const gpsToPercent = (lat: number, lng: number) => {
@@ -34,7 +51,8 @@ export default function LocationMap() {
     const yPercent = (maxLat - lat) / (maxLat - minLat); // Inverted because y increases downward
 
     // Convert to percentage (0-100%)
-    const x = xPercent * 100;
+    // In landscape mode, the SVG is horizontally flipped, so invert X-axis
+    const x = isLandscape ? (1 - xPercent) * 100 : xPercent * 100;
     const y = yPercent * 100;
 
     return { x, y };
@@ -105,37 +123,124 @@ export default function LocationMap() {
     return () => navigator.geolocation.clearWatch(watchId);
   }, []);
 
+  // Show notification when user gets near a stop
+  useEffect(() => {
+    const nearestStopId = getNearestStop();
+
+    if (
+      nearestStopId &&
+      !notificationStop &&
+      !hasShownNotification(nearestStopId) &&
+      !isVisited(nearestStopId)
+    ) {
+      setNotificationStop(nearestStopId);
+      saveNotificationState(nearestStopId);
+    }
+  }, [nearbyStops, notificationStop, isVisited, getNearestStop]);
+
+  const getStopStatus = (stopId: number) => {
+    if (selectedStop === stopId) return "active";
+    if (isVisited(stopId)) return "visited";
+    if (isNearby(stopId)) return "nearby";
+    return "unvisited";
+  };
+
+  const handleNextStop = () => {
+    if (!selectedStop) return;
+    const currentIndex = TOUR_STOPS.findIndex((s) => s.id === selectedStop);
+    if (currentIndex < TOUR_STOPS.length - 1) {
+      setSelectedStop(TOUR_STOPS[currentIndex + 1].id);
+    } else {
+      setSelectedStop(null);
+    }
+  };
+
   const mapSrc = isLandscape
     ? "/Wandelroute Landscape.svg"
     : "/Wandelroute Portrait.svg";
 
-  return (
-    <div className="flex flex-col items-center gap-4 p-4 min-h-screen">
-      <h1 className="text-2xl font-bold">TU/e Campus Tour</h1>
+  const selectedStopData = selectedStop
+    ? TOUR_STOPS.find((s) => s.id === selectedStop)
+    : null;
 
+  const notificationStopData = notificationStop
+    ? TOUR_STOPS.find((s) => s.id === notificationStop)
+    : null;
+
+  return (
+    <div className="flex flex-col items-center gap-4 p-4 min-h-screen bg-gray-50 dark:bg-gray-950">
+      {/* Header */}
+      <div className="w-full max-w-6xl">
+        <h1 className="text-3xl font-bold text-center mb-2 text-gray-900 dark:text-white">
+          TU/e Campus Audio Tour
+        </h1>
+        <p className="text-center text-gray-600 dark:text-gray-400 text-sm">
+          GENIUS Project - Sustainable Energy Systems
+        </p>
+      </div>
+
+      {/* Loading and Error States */}
       {loading && (
-        <p className="text-gray-600">Getting your location...</p>
+        <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+          <svg
+            className="animate-spin h-5 w-5"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+            ></circle>
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+            ></path>
+          </svg>
+          Getting your location...
+        </div>
       )}
 
       {error && (
-        <p className="text-red-500">{error}</p>
+        <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 max-w-6xl w-full">
+          <p className="text-red-600 dark:text-red-400">{error}</p>
+        </div>
       )}
 
-      {userPosition && (
-        <p className="text-sm text-gray-600">
-          Your GPS: {userPosition.lat.toFixed(6)}, {userPosition.lng.toFixed(6)}
-        </p>
-      )}
-
-      <div className="relative w-full max-w-6xl border-2 border-gray-300 rounded-lg overflow-hidden bg-white shadow-lg">
-        {/* SVG Map - switches based on orientation */}
-        <img
-          src={mapSrc}
-          alt="TU/e Campus Map"
-          className="w-full h-auto"
+      {/* Tour Progress */}
+      <div className="w-full max-w-6xl">
+        <TourProgress
+          visitedCount={visitedStops.size}
+          totalStops={TOUR_STOPS.length}
+          onReset={resetProgress}
         />
+      </div>
 
-        {/* Red dot marker for user position */}
+      {/* Map Container */}
+      <div className="relative w-full max-w-6xl border-2 border-gray-300 dark:border-gray-700 rounded-lg overflow-hidden bg-white dark:bg-gray-900 shadow-2xl">
+        {/* SVG Map - switches based on orientation */}
+        <img src={mapSrc} alt="TU/e Campus Map" className="w-full h-auto" />
+
+        {/* Stop Markers */}
+        {TOUR_STOPS.map((stop) => {
+          const position = gpsToPercent(stop.coordinates.lat, stop.coordinates.lng);
+          return (
+            <StopMarker
+              key={stop.id}
+              stopNumber={stop.id}
+              position={position}
+              status={getStopStatus(stop.id)}
+              onClick={() => setSelectedStop(stop.id)}
+            />
+          );
+        })}
+
+        {/* User Position Dot */}
         {dotPosition && (
           <div
             className="absolute w-4 h-4 bg-red-500 rounded-full border-2 border-white shadow-lg transform -translate-x-1/2 -translate-y-1/2 z-10"
@@ -150,9 +255,39 @@ export default function LocationMap() {
         )}
       </div>
 
-      <p className="text-xs text-gray-500">
-        Orientation: {isLandscape ? "Landscape" : "Portrait"}
-      </p>
+      {/* Debug Info */}
+      {userPosition && (
+        <div className="text-xs text-gray-500 dark:text-gray-400 text-center">
+          GPS: {userPosition.lat.toFixed(6)}, {userPosition.lng.toFixed(6)} •{" "}
+          {isLandscape ? "Landscape" : "Portrait"}
+        </div>
+      )}
+
+      {/* Proximity Notification */}
+      {notificationStopData && (
+        <ProximityNotification
+          stop={notificationStopData}
+          distance={getDistance(notificationStopData.id)}
+          onDismiss={() => setNotificationStop(null)}
+          onOpen={() => {
+            setSelectedStop(notificationStopData.id);
+            setNotificationStop(null);
+          }}
+        />
+      )}
+
+      {/* Stop Details Modal */}
+      {selectedStopData && (
+        <StopDetails
+          stop={selectedStopData}
+          isVisited={isVisited(selectedStopData.id)}
+          onClose={() => setSelectedStop(null)}
+          onMarkVisited={() => markAsVisited(selectedStopData.id)}
+          onNext={
+            selectedStopData.id < TOUR_STOPS.length ? handleNextStop : undefined
+          }
+        />
+      )}
     </div>
   );
 }
