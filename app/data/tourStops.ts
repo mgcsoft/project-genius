@@ -22,7 +22,7 @@ export const TOUR_STOPS: TourStop[] = [
     id: 1,
     title: "Begin audiotour",
     shortTitle: "Stop 1",
-    coordinates: { lat: 0, lng: 0 }, // TODO: Add from Google Maps
+    coordinates: { lat: 51.449579488869865, lng: 5.494752266423991 },
     audioFile: "/audio/stop1.mp3",
     triggerRadius: 25,
     content: {
@@ -48,7 +48,7 @@ export const TOUR_STOPS: TourStop[] = [
     id: 2,
     title: "Batterij & Proeftuin",
     shortTitle: "Stop 2",
-    coordinates: { lat: 0, lng: 0 }, // TODO: Add from Google Maps
+    coordinates: { lat: 51.450208762981596, lng: 5.49615296404904 },
     audioFile: "/audio/stop2.mp3",
     triggerRadius: 25,
     content: {
@@ -78,7 +78,7 @@ export const TOUR_STOPS: TourStop[] = [
     id: 3,
     title: "Woontorens",
     shortTitle: "Stop 3",
-    coordinates: { lat: 0, lng: 0 }, // TODO: Add from Google Maps
+    coordinates: { lat: 51.450265901068235, lng: 5.492436323711705 },
     audioFile: "/audio/stop3.mp3",
     triggerRadius: 25,
     content: {
@@ -104,7 +104,7 @@ export const TOUR_STOPS: TourStop[] = [
     id: 4,
     title: "Koeltorens en WKO-systeem",
     shortTitle: "Stop 4",
-    coordinates: { lat: 0, lng: 0 }, // TODO: Add from Google Maps
+    coordinates: { lat: 51.44648917994883, lng: 5.493923906743346 },
     audioFile: "/audio/stop4.mp3",
     triggerRadius: 25,
     content: {
@@ -134,7 +134,7 @@ export const TOUR_STOPS: TourStop[] = [
     id: 5,
     title: "Flux",
     shortTitle: "Stop 5",
-    coordinates: { lat: 0, lng: 0 }, // TODO: Add from Google Maps
+    coordinates: { lat: 51.44724473348637, lng: 5.492124167524252 },
     audioFile: "/audio/stop5.mp3",
     triggerRadius: 25,
     content: {
@@ -160,7 +160,7 @@ export const TOUR_STOPS: TourStop[] = [
     id: 6,
     title: "Helix",
     shortTitle: "Stop 6",
-    coordinates: { lat: 0, lng: 0 }, // TODO: Add from Google Maps
+    coordinates: { lat: 51.446465034579745, lng: 5.487701223366851 },
     audioFile: "/audio/stop6.mp3",
     triggerRadius: 25,
     content: {
@@ -186,7 +186,7 @@ export const TOUR_STOPS: TourStop[] = [
     id: 7,
     title: "Atlas",
     shortTitle: "Stop 7",
-    coordinates: { lat: 0, lng: 0 }, // TODO: Add from Google Maps
+    coordinates: { lat: 51.44777712036637, lng: 5.486158212619923 },
     audioFile: "/audio/stop7.mp3",
     triggerRadius: 25,
     content: {
@@ -216,7 +216,7 @@ export const TOUR_STOPS: TourStop[] = [
     id: 8,
     title: "Einde audiotour",
     shortTitle: "Stop 8",
-    coordinates: { lat: 0, lng: 0 }, // TODO: Add from Google Maps
+    coordinates: { lat: 51.44643192725717, lng: 5.484327628334687 },
     audioFile: "/audio/stop8.mp3",
     triggerRadius: 25,
     content: {

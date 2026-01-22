@@ -2,12 +2,12 @@
 
 import { useState, useEffect } from "react";
 
-// GPS coordinates for the 4 corners of the map image
+// GPS coordinates for the 4 corners of the map image (TU/e Campus)
 const MAP_BOUNDS = {
-  topLeft: { lat: 51.20546392247269, lng: 6.01823876980624 },
-  topRight: { lat: 51.20546392247269, lng: 6.027991031449112 },
-  bottomLeft: { lat: 51.20006557443836, lng: 6.01823876980624 },
-  bottomRight: { lat: 51.20006557443836, lng: 6.027991031449112 },
+  topLeft: { lat: 51.45101760460129, lng: 5.496808389521499 },
+  topRight: { lat: 51.45101760460129, lng: 5.484095445898115 },
+  bottomLeft: { lat: 51.44556112034438, lng: 5.496808389521499 },
+  bottomRight: { lat: 51.44556112034438, lng: 5.484095445898115 },
 };
 
 interface Position {

@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Walking Route TUE",
-  description: "Track your location on a custom map",
+  title: "TU/e Campus Audio Tour - GENIUS Project",
+  description: "Interactive audio tour of the TU/e campus showcasing sustainable energy systems and innovative buildings",
 };
 
 export default function RootLayout({
