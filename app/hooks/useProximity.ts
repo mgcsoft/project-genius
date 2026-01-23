@@ -29,8 +29,8 @@ export function useProximity(
       const distance = calculateDistance(
         userPosition.lat,
         userPosition.lng,
-        stop.coordinates.lat,
-        stop.coordinates.lng
+        stop.coordinates.gps.lat,
+        stop.coordinates.gps.lng
       );
 
       if (distance <= stop.triggerRadius) {

@@ -3,8 +3,14 @@ export interface TourStop {
   title: string;
   shortTitle: string;
   coordinates: {
-    lat: number;
-    lng: number;
+    gps: {
+      lat: number;
+      lng: number;
+    };
+    mapPosition: {
+      landscape: { x: number; y: number }; // Percentage position (0-100)
+      portrait: { x: number; y: number };   // Percentage position (0-100)
+    };
   };
   audioFile: string;
   content: {
@@ -17,12 +23,38 @@ export interface TourStop {
   triggerRadius: number;
 }
 
+// Helper function to convert GPS to landscape map position
+const gpsToLandscape = (lat: number, lng: number) => {
+  const MAP_BOUNDS = {
+    topLeft: { lat: 51.45101760460129, lng: 5.496808389521499 },
+    topRight: { lat: 51.45101760460129, lng: 5.484095445898115 },
+    bottomLeft: { lat: 51.44556112034438, lng: 5.496808389521499 },
+    bottomRight: { lat: 51.44556112034438, lng: 5.484095445898115 },
+  };
+
+  const minLat = Math.min(MAP_BOUNDS.bottomLeft.lat, MAP_BOUNDS.bottomRight.lat);
+  const maxLat = Math.max(MAP_BOUNDS.topLeft.lat, MAP_BOUNDS.topRight.lat);
+  const minLng = Math.min(MAP_BOUNDS.topLeft.lng, MAP_BOUNDS.bottomLeft.lng);
+  const maxLng = Math.max(MAP_BOUNDS.topRight.lng, MAP_BOUNDS.bottomRight.lng);
+
+  const xPercent = (lng - minLng) / (maxLng - minLng);
+  const yPercent = (maxLat - lat) / (maxLat - minLat);
+
+  return { x: (1 - xPercent) * 100, y: yPercent * 100 };
+};
+
 export const TOUR_STOPS: TourStop[] = [
   {
     id: 1,
     title: "Begin audiotour",
     shortTitle: "Stop 1",
-    coordinates: { lat: 51.44956011298008, lng: 5.4949600537464685 },
+    coordinates: {
+      gps: { lat: 51.44956011298008, lng: 5.4949600537464685 },
+      mapPosition: {
+        landscape: gpsToLandscape(51.44956011298008, 5.4949600537464685),
+        portrait: { x: 27.14, y: 14.25 },
+      },
+    },
     audioFile: "/audio/stop1.mp3",
     triggerRadius: 25,
     content: {
@@ -48,7 +80,13 @@ export const TOUR_STOPS: TourStop[] = [
     id: 2,
     title: "Batterij & Proeftuin",
     shortTitle: "Stop 2",
-    coordinates: { lat: 51.45021598420962, lng: 5.496372603037956 },
+    coordinates: {
+      gps: { lat: 51.45021598420962, lng: 5.496372603037956 },
+      mapPosition: {
+        landscape: gpsToLandscape(51.45021598420962, 5.496372603037956),
+        portrait: { x: 15.08, y: 3.21 },
+      },
+    },
     audioFile: "/audio/stop2.mp3",
     triggerRadius: 25,
     content: {
@@ -78,7 +116,13 @@ export const TOUR_STOPS: TourStop[] = [
     id: 3,
     title: "Woontorens",
     shortTitle: "Stop 3",
-    coordinates: { lat: 51.450425498630175, lng: 5.49272101284826 },
+    coordinates: {
+      gps: { lat: 51.450425498630175, lng: 5.49272101284826 },
+      mapPosition: {
+        landscape: gpsToLandscape(51.450425498630175, 5.49272101284826),
+        portrait: { x: 12.81, y: 32.41 },
+      },
+    },
     audioFile: "/audio/stop3.mp3",
     triggerRadius: 25,
     content: {
@@ -104,7 +148,13 @@ export const TOUR_STOPS: TourStop[] = [
     id: 4,
     title: "Koeltorens en WKO-systeem",
     shortTitle: "Stop 4",
-    coordinates: { lat: 51.44666334838292, lng: 5.495005135106835 },
+    coordinates: {
+      gps: { lat: 51.44666334838292, lng: 5.495005135106835 },
+      mapPosition: {
+        landscape: gpsToLandscape(51.44666334838292, 5.495005135106835),
+        portrait: { x: 79.90, y: 13.00 },
+      },
+    },
     audioFile: "/audio/stop4.mp3",
     triggerRadius: 25,
     content: {
@@ -134,7 +184,13 @@ export const TOUR_STOPS: TourStop[] = [
     id: 5,
     title: "Flux",
     shortTitle: "Stop 5",
-    coordinates: { lat: 51.44724473348637, lng: 5.492124167524252 },
+    coordinates: {
+      gps: { lat: 51.44724473348637, lng: 5.492124167524252 },
+      mapPosition: {
+        landscape: gpsToLandscape(51.44724473348637, 5.492124167524252),
+        portrait: { x: 69.35, y: 36.51 },
+      },
+    },
     audioFile: "/audio/stop5.mp3",
     triggerRadius: 25,
     content: {
@@ -160,7 +216,13 @@ export const TOUR_STOPS: TourStop[] = [
     id: 6,
     title: "Helix",
     shortTitle: "Stop 6",
-    coordinates: { lat: 51.446490271252905, lng: 5.487777090328055 },
+    coordinates: {
+      gps: { lat: 51.446490271252905, lng: 5.487777090328055 },
+      mapPosition: {
+        landscape: gpsToLandscape(51.446490271252905, 5.487777090328055),
+        portrait: { x: 82.91, y: 70.70 },
+      },
+    },
     audioFile: "/audio/stop6.mp3",
     triggerRadius: 25,
     content: {
@@ -186,7 +248,13 @@ export const TOUR_STOPS: TourStop[] = [
     id: 7,
     title: "Atlas",
     shortTitle: "Stop 7",
-    coordinates: { lat: 51.44777468574409, lng: 5.486364541036568 },
+    coordinates: {
+      gps: { lat: 51.44777468574409, lng: 5.486364541036568 },
+      mapPosition: {
+        landscape: gpsToLandscape(51.44777468574409, 5.486364541036568),
+        portrait: { x: 59.05, y: 82.63 },
+      },
+    },
     audioFile: "/audio/stop7.mp3",
     triggerRadius: 25,
     content: {
@@ -216,7 +284,13 @@ export const TOUR_STOPS: TourStop[] = [
     id: 8,
     title: "Einde audiotour",
     shortTitle: "Stop 8",
-    coordinates: { lat: 51.44645383396237, lng: 5.484546259501781 },
+    coordinates: {
+      gps: { lat: 51.44645383396237, lng: 5.484546259501781 },
+      mapPosition: {
+        landscape: gpsToLandscape(51.44645383396237, 5.484546259501781),
+        portrait: { x: 83.42, y: 97.23 },
+      },
+    },
     audioFile: "/audio/stop8.mp3",
     triggerRadius: 25,
     content: {
