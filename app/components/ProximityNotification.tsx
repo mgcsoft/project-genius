@@ -63,13 +63,13 @@ export default function ProximityNotification({
         <div className="flex flex-col gap-2">
           <button
             onClick={onOpen}
-            className="bg-white text-orange-600 px-4 py-2 rounded-lg font-semibold text-sm hover:bg-orange-50 transition-colors focus:outline-none focus:ring-2 focus:ring-white"
+            className="bg-white text-orange-600 px-4 py-2 rounded-lg font-semibold text-sm hover:bg-orange-50 transition-colors focus:outline-none focus:ring-2 focus:ring-white cursor-pointer"
           >
             Open
           </button>
           <button
             onClick={onDismiss}
-            className="text-white/80 hover:text-white text-sm underline focus:outline-none"
+            className="text-white/80 hover:text-white text-sm underline focus:outline-none cursor-pointer"
           >
             Dismiss
           </button>

@@ -43,7 +43,7 @@ export default function StopDetails({
     <>
       {/* Backdrop */}
       <div
-        className={`fixed inset-0 bg-black/50 backdrop-blur-sm z-40 ${
+        className={`fixed inset-0 bg-black/50 backdrop-blur-sm z-40 cursor-pointer ${
           isClosing ? "animate-fade-out" : "animate-fade-in"
         }`}
         onClick={onClose}
@@ -68,7 +68,7 @@ export default function StopDetails({
             </div>
             <button
               onClick={onClose}
-              className="ml-4 p-2 hover:bg-gray-100 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-[#c72125] shrink-0"
+              className="ml-4 p-2 hover:bg-gray-100 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-[#c72125] shrink-0 cursor-pointer"
               aria-label="Close"
             >
               <svg
@@ -119,7 +119,7 @@ export default function StopDetails({
             {!isVisited && (
               <button
                 onClick={onMarkVisited}
-                className="flex-1 bg-[#c72125] hover:bg-[#a01b1e] text-white px-6 py-3 rounded-lg font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-[#c72125] flex items-center justify-center gap-2"
+                className="flex-1 bg-[#c72125] hover:bg-[#a01b1e] text-white px-6 py-3 rounded-lg font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-[#c72125] flex items-center justify-center gap-2 cursor-pointer"
               >
                 <svg
                   className="w-5 h-5"
@@ -160,7 +160,7 @@ export default function StopDetails({
             {onNext && (
               <button
                 onClick={onNext}
-                className="flex-1 bg-[#c72125] hover:bg-[#a01b1e] text-white px-6 py-3 rounded-lg font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-[#c72125] flex items-center justify-center gap-2"
+                className="flex-1 bg-[#c72125] hover:bg-[#a01b1e] text-white px-6 py-3 rounded-lg font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-[#c72125] flex items-center justify-center gap-2 cursor-pointer"
               >
                 Next Stop
                 <svg

@@ -24,7 +24,7 @@ export default function TourProgress({
         {visitedCount > 0 && onReset && (
           <button
             onClick={onReset}
-            className="text-xs text-gray-500 hover:text-gray-700 underline focus:outline-none"
+            className="text-xs text-gray-500 hover:text-gray-700 underline focus:outline-none cursor-pointer"
           >
             Reset
           </button>

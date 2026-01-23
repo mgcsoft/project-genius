@@ -29,7 +29,7 @@ export default function StopMarker({
   return (
     <button
       onClick={onClick}
-      className="absolute transform -translate-x-1/2 -translate-y-1/2 z-20 focus:outline-none focus:ring-2 focus:ring-blue-400 rounded-full"
+      className="absolute transform -translate-x-1/2 -translate-y-1/2 z-20 focus:outline-none focus:ring-2 focus:ring-blue-400 rounded-full cursor-pointer"
       style={{
         left: `${position.x}%`,
         top: `${position.y}%`,

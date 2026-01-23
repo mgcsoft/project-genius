@@ -134,7 +134,7 @@ export default function AudioPlayer({
       <div className="flex items-center gap-4">
         <button
           onClick={togglePlay}
-          className="w-12 h-12 flex items-center justify-center bg-[#c72125] hover:bg-[#a01b1e] text-white rounded-full shadow-lg transition-all hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#c72125]"
+          className="w-12 h-12 flex items-center justify-center bg-[#c72125] hover:bg-[#a01b1e] text-white rounded-full shadow-lg transition-all hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#c72125] cursor-pointer"
           aria-label={isPlaying ? "Pause" : "Play"}
         >
           {isPlaying ? (
