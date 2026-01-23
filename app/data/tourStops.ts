@@ -22,7 +22,7 @@ export const TOUR_STOPS: TourStop[] = [
     id: 1,
     title: "Begin audiotour",
     shortTitle: "Stop 1",
-    coordinates: { lat: 51.449579488869865, lng: 5.494752266423991 },
+    coordinates: { lat: 51.44956011298008, lng: 5.4949600537464685 },
     audioFile: "/audio/stop1.mp3",
     triggerRadius: 25,
     content: {
@@ -48,7 +48,7 @@ export const TOUR_STOPS: TourStop[] = [
     id: 2,
     title: "Batterij & Proeftuin",
     shortTitle: "Stop 2",
-    coordinates: { lat: 51.450208762981596, lng: 5.49615296404904 },
+    coordinates: { lat: 51.45021598420962, lng: 5.496372603037956 },
     audioFile: "/audio/stop2.mp3",
     triggerRadius: 25,
     content: {
@@ -78,7 +78,7 @@ export const TOUR_STOPS: TourStop[] = [
     id: 3,
     title: "Woontorens",
     shortTitle: "Stop 3",
-    coordinates: { lat: 51.450265901068235, lng: 5.492436323711705 },
+    coordinates: { lat: 51.450425498630175, lng: 5.49272101284826 },
     audioFile: "/audio/stop3.mp3",
     triggerRadius: 25,
     content: {
@@ -104,7 +104,7 @@ export const TOUR_STOPS: TourStop[] = [
     id: 4,
     title: "Koeltorens en WKO-systeem",
     shortTitle: "Stop 4",
-    coordinates: { lat: 51.44648917994883, lng: 5.493923906743346 },
+    coordinates: { lat: 51.44666334838292, lng: 5.495005135106835 },
     audioFile: "/audio/stop4.mp3",
     triggerRadius: 25,
     content: {
@@ -160,7 +160,7 @@ export const TOUR_STOPS: TourStop[] = [
     id: 6,
     title: "Helix",
     shortTitle: "Stop 6",
-    coordinates: { lat: 51.446465034579745, lng: 5.487701223366851 },
+    coordinates: { lat: 51.446490271252905, lng: 5.487777090328055 },
     audioFile: "/audio/stop6.mp3",
     triggerRadius: 25,
     content: {
@@ -186,7 +186,7 @@ export const TOUR_STOPS: TourStop[] = [
     id: 7,
     title: "Atlas",
     shortTitle: "Stop 7",
-    coordinates: { lat: 51.44777712036637, lng: 5.486158212619923 },
+    coordinates: { lat: 51.44777468574409, lng: 5.486364541036568 },
     audioFile: "/audio/stop7.mp3",
     triggerRadius: 25,
     content: {
@@ -216,7 +216,7 @@ export const TOUR_STOPS: TourStop[] = [
     id: 8,
     title: "Einde audiotour",
     shortTitle: "Stop 8",
-    coordinates: { lat: 51.44643192725717, lng: 5.484327628334687 },
+    coordinates: { lat: 51.44645383396237, lng: 5.484546259501781 },
     audioFile: "/audio/stop8.mp3",
     triggerRadius: 25,
     content: {

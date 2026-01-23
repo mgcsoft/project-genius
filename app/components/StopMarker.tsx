@@ -14,13 +14,13 @@ export default function StopMarker({
   const getMarkerStyles = () => {
     switch (status) {
       case "nearby":
-        return "bg-orange-500 border-orange-600 animate-pulse";
+        return "bg-orange-600 border-orange-700 animate-pulse";
       case "active":
         return "bg-blue-500 border-blue-600";
       case "visited":
         return "bg-green-500 border-green-600";
       default:
-        return "bg-gray-400 border-gray-500";
+        return "bg-orange-400 border-orange-500";
     }
   };
 

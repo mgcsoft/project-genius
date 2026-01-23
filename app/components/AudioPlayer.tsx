@@ -23,45 +23,71 @@ export default function AudioPlayer({
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    const audio = new Audio(audioSrc);
+    const audio = new Audio();
+    audio.preload = "metadata";
     audioRef.current = audio;
 
-    audio.addEventListener("loadedmetadata", () => {
+    const handleLoadedMetadata = () => {
       setDuration(audio.duration);
       setLoading(false);
-    });
+      setError(null);
+    };
 
-    audio.addEventListener("timeupdate", () => {
+    const handleTimeUpdate = () => {
       setCurrentTime(audio.currentTime);
       onTimeUpdate?.(audio.currentTime);
-    });
+    };
 
-    audio.addEventListener("ended", () => {
+    const handleEnded = () => {
       setIsPlaying(false);
       setCurrentTime(0);
       onEnded?.();
-    });
+    };
 
-    audio.addEventListener("error", () => {
-      setError("Failed to load audio file");
+    const handleError = (e: Event) => {
+      console.error("Audio load error:", e, "Source:", audioSrc, "Error code:", audio.error);
+      const errorMsg = audio.error?.code
+        ? `Audio error (code ${audio.error.code}): ${audioSrc}`
+        : `Failed to load audio: ${audioSrc}`;
+      setError(errorMsg);
       setLoading(false);
-    });
+    };
+
+    audio.addEventListener("loadedmetadata", handleLoadedMetadata);
+    audio.addEventListener("timeupdate", handleTimeUpdate);
+    audio.addEventListener("ended", handleEnded);
+    audio.addEventListener("error", handleError);
+
+    // Set source after adding listeners
+    audio.src = audioSrc;
 
     return () => {
+      audio.removeEventListener("loadedmetadata", handleLoadedMetadata);
+      audio.removeEventListener("timeupdate", handleTimeUpdate);
+      audio.removeEventListener("ended", handleEnded);
+      audio.removeEventListener("error", handleError);
       audio.pause();
       audio.src = "";
     };
   }, [audioSrc, onEnded, onTimeUpdate]);
 
-  const togglePlay = () => {
+  const togglePlay = async () => {
     if (!audioRef.current) return;
 
     if (isPlaying) {
       audioRef.current.pause();
+      setIsPlaying(false);
     } else {
-      audioRef.current.play();
+      try {
+        await audioRef.current.play();
+        setIsPlaying(true);
+        setError(null);
+      } catch (err) {
+        console.error("Play error:", err);
+        setError("Cannot play audio. Click play button to start.");
+        setIsPlaying(false);
+      }
     }
-    setIsPlaying(!isPlaying);
   };
 
   const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {

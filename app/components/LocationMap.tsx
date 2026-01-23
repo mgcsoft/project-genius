@@ -58,6 +58,7 @@ export default function LocationMap() {
     return { x, y };
   };
 
+
   // Check if position is within map bounds
   const isWithinBounds = (lat: number, lng: number) => {
     const minLat = Math.min(MAP_BOUNDS.bottomLeft.lat, MAP_BOUNDS.bottomRight.lat);
@@ -222,7 +223,7 @@ export default function LocationMap() {
       </div>
 
       {/* Map Container */}
-      <div className="relative w-full max-w-6xl border-2 border-gray-300 dark:border-gray-700 rounded-lg overflow-hidden bg-white dark:bg-gray-900 shadow-2xl">
+      <div className="relative w-full max-w-6xl border-2 border-gray-300 dark:border-gray-700 rounded-lg overflow-hidden bg-white dark:bg-gray-900 shadow-2xl map-container">
         {/* SVG Map - switches based on orientation */}
         <img src={mapSrc} alt="TU/e Campus Map" className="w-full h-auto" />
 
