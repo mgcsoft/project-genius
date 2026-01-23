@@ -55,20 +55,20 @@ export default function StopDetails({
           isClosing ? "animate-slide-down-exit" : "animate-slide-up"
         }`}
       >
-        <div className="bg-white dark:bg-gray-900 rounded-t-2xl md:rounded-2xl shadow-2xl w-full md:max-w-2xl max-h-[90vh] flex flex-col overflow-hidden">
+        <div className="bg-white rounded-t-2xl md:rounded-2xl shadow-2xl w-full md:max-w-2xl max-h-[90vh] flex flex-col overflow-hidden">
           {/* Header */}
-          <div className="flex items-start justify-between p-6 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
+          <div className="flex items-start justify-between p-6 border-b border-gray-200 shrink-0">
             <div className="flex-1">
-              <div className="text-sm text-blue-600 dark:text-blue-400 font-semibold mb-1">
+              <div className="text-sm text-blue-600 font-semibold mb-1">
                 {stop.shortTitle}
               </div>
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+              <h2 className="text-2xl font-bold text-gray-900">
                 {stop.title}
               </h2>
             </div>
             <button
               onClick={onClose}
-              className="ml-4 p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 flex-shrink-0"
+              className="ml-4 p-2 hover:bg-gray-100 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 shrink-0"
               aria-label="Close"
             >
               <svg
@@ -96,7 +96,7 @@ export default function StopDetails({
           <div className="flex-1 overflow-y-auto px-6 py-6 space-y-6 min-h-0">
             {/* Introduction */}
             <div>
-              <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+              <p className="text-gray-700 leading-relaxed">
                 {stop.content.introduction}
               </p>
             </div>
@@ -104,10 +104,10 @@ export default function StopDetails({
             {/* Sections */}
             {stop.content.sections.map((section, index) => (
               <div key={index}>
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">
                   {section.heading}
                 </h3>
-                <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+                <p className="text-gray-700 leading-relaxed">
                   {section.body}
                 </p>
               </div>
@@ -115,7 +115,7 @@ export default function StopDetails({
           </div>
 
           {/* Footer */}
-          <div className="p-6 border-t border-gray-200 dark:border-gray-700 flex flex-wrap gap-3">
+          <div className="p-6 border-t border-gray-200 flex flex-wrap gap-3">
             {!isVisited && (
               <button
                 onClick={onMarkVisited}
@@ -139,7 +139,7 @@ export default function StopDetails({
             )}
 
             {isVisited && (
-              <div className="flex-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 px-6 py-3 rounded-lg font-semibold flex items-center justify-center gap-2">
+              <div className="flex-1 bg-green-100 text-green-700 px-6 py-3 rounded-lg font-semibold flex items-center justify-center gap-2">
                 <svg
                   className="w-5 h-5"
                   fill="none"
