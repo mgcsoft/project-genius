@@ -47,8 +47,8 @@ export default function AudioPlayer({
     const handleError = (e: Event) => {
       console.error("Audio load error:", e, "Source:", audioSrc, "Error code:", audio.error);
       const errorMsg = audio.error?.code
-        ? `Audio error (code ${audio.error.code}): ${audioSrc}`
-        : `Failed to load audio: ${audioSrc}`;
+        ? `Audio fout (code ${audio.error.code}): ${audioSrc}`
+        : `Kan audio niet laden: ${audioSrc}`;
       setError(errorMsg);
       setLoading(false);
     };
@@ -84,7 +84,7 @@ export default function AudioPlayer({
         setError(null);
       } catch (err) {
         console.error("Play error:", err);
-        setError("Cannot play audio. Click play button to start.");
+        setError("Kan audio niet afspelen. Klik op de afspeelknop om te starten.");
         setIsPlaying(false);
       }
     }
@@ -114,7 +114,7 @@ export default function AudioPlayer({
     return (
       <div className="flex items-center justify-center p-4 bg-gray-100 rounded-lg">
         <p className="text-sm text-gray-600">
-          Loading audio...
+          Audio laden...
         </p>
       </div>
     );
@@ -135,7 +135,7 @@ export default function AudioPlayer({
         <button
           onClick={togglePlay}
           className="w-12 h-12 flex items-center justify-center bg-[#c72125] hover:bg-[#a01b1e] text-white rounded-full shadow-lg transition-all hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#c72125] cursor-pointer"
-          aria-label={isPlaying ? "Pause" : "Play"}
+          aria-label={isPlaying ? "Pauzeren" : "Afspelen"}
         >
           {isPlaying ? (
             // Pause icon

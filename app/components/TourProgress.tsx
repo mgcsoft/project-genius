@@ -15,9 +15,11 @@ export default function TourProgress({
     <div className="bg-white rounded-lg shadow-lg p-4 border border-gray-200">
       <div className="flex items-center justify-between mb-3">
         <div>
-          <h3 className="text-sm font-semibold text-gray-900">Tour Progress</h3>
+          <h3 className="text-sm font-semibold text-gray-900">
+            Tour voortgang
+          </h3>
           <p className="text-xs text-gray-600">
-            {visitedCount} of {totalStops} stops visited
+            {visitedCount} van {totalStops} stops bezocht
           </p>
         </div>
 
@@ -56,7 +58,7 @@ export default function TourProgress({
                 d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
               />
             </svg>
-            Tour Complete! Great job! 🎉
+            Tour voltooid! Goed gedaan!
           </p>
         </div>
       )}

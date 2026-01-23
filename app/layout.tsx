@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "TU/e Campus Audio Tour - GENIUS Project",
-  description: "Interactive audio tour of the TU/e campus showcasing sustainable energy systems and innovative buildings",
+  description: "Interactieve audiotour van de TU/e campus met duurzame energiesystemen en innovatieve gebouwen",
 };
 
 export default function RootLayout({
@@ -23,7 +23,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="nl">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

@@ -114,7 +114,7 @@ export default function LocationMap() {
   // Track user location
   useEffect(() => {
     if (!navigator.geolocation) {
-      setError("Geolocation is not supported by your browser");
+      setError("Geolocatie wordt niet ondersteund door je browser");
       setLoading(false);
       return;
     }
@@ -129,12 +129,12 @@ export default function LocationMap() {
           setError(null);
         } else {
           setDotPosition(null);
-          setError("You are outside the map area");
+          setError("Je bevindt je buiten het kaartgebied");
         }
         setLoading(false);
       },
       (err) => {
-        setError(`Error getting location: ${err.message}`);
+        setError(`Fout bij ophalen locatie: ${err.message}`);
         setLoading(false);
       },
       {
@@ -208,7 +208,7 @@ export default function LocationMap() {
           TU/e Campus Audio Tour
         </h1>
         <p className="text-center text-gray-600 text-sm">
-          GENIUS Project - Sustainable Energy Systems
+          GENIUS Project - Duurzame Energiesystemen
         </p>
       </div>
 
@@ -235,7 +235,7 @@ export default function LocationMap() {
               d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
             ></path>
           </svg>
-          Getting your location...
+          Locatie ophalen...
         </div>
       )}
 

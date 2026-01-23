@@ -53,9 +53,9 @@ export default function ProximityNotification({
 
         {/* Content */}
         <div className="flex-1">
-          <h3 className="font-bold text-lg">You're near {stop.title}!</h3>
+          <h3 className="font-bold text-lg">Je bent dichtbij {stop.title}!</h3>
           <p className="text-sm text-white/90">
-            {Math.round(distance)}m away • {stop.shortTitle}
+            {Math.round(distance)}m ver • {stop.shortTitle}
           </p>
         </div>
 
@@ -71,7 +71,7 @@ export default function ProximityNotification({
             onClick={onDismiss}
             className="text-white/80 hover:text-white text-sm underline focus:outline-none cursor-pointer"
           >
-            Dismiss
+            Sluiten
           </button>
         </div>
       </div>

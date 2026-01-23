@@ -69,7 +69,7 @@ export default function StopDetails({
             <button
               onClick={onClose}
               className="ml-4 p-2 hover:bg-gray-100 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-[#c72125] shrink-0 cursor-pointer"
-              aria-label="Close"
+              aria-label="Sluiten"
             >
               <svg
                 className="w-6 h-6 text-gray-500"
@@ -134,7 +134,7 @@ export default function StopDetails({
                     d="M5 13l4 4L19 7"
                   />
                 </svg>
-                Mark as Visited
+                Markeer als bezocht
               </button>
             )}
 
@@ -153,7 +153,7 @@ export default function StopDetails({
                     d="M5 13l4 4L19 7"
                   />
                 </svg>
-                Visited
+                Bezocht
               </div>
             )}
 
@@ -162,7 +162,7 @@ export default function StopDetails({
                 onClick={onNext}
                 className="flex-1 bg-[#c72125] hover:bg-[#a01b1e] text-white px-6 py-3 rounded-lg font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-[#c72125] flex items-center justify-center gap-2 cursor-pointer"
               >
-                Next Stop
+                Volgende stop
                 <svg
                   className="w-5 h-5"
                   fill="none"
