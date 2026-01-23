@@ -207,8 +207,15 @@ export default function LocationMap() {
         <h1 className="text-3xl font-bold text-center mb-2 text-gray-900">
           TU/e Campus Audio Tour
         </h1>
-        <p className="text-center text-gray-600 text-sm">
-          GENIUS Project - Duurzame Energiesystemen
+        <p className="text-center text-sm">
+          <a
+            href="https://www.tue.nl/en/research/institutes/eindhoven-institute-for-renewable-energy-systems/projects/genius"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[#c72125] cursor-pointer"
+          >
+            GENIUS Project - Duurzame Energiesystemen
+          </a>
         </p>
       </div>
 

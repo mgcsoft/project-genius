@@ -1,3 +1,8 @@
+"use client";
+
+import { useEffect } from "react";
+import confetti from "canvas-confetti";
+
 interface TourProgressProps {
   visitedCount: number;
   totalStops: number;
@@ -10,6 +15,38 @@ export default function TourProgress({
   onReset,
 }: TourProgressProps) {
   const percentage = (visitedCount / totalStops) * 100;
+  const isComplete = visitedCount === totalStops && totalStops > 0;
+
+  // Trigger confetti when tour is completed
+  useEffect(() => {
+    if (isComplete) {
+      const duration = 3000;
+      const end = Date.now() + duration;
+
+      const colors = ["#c72125", "#a01b1e", "#FFD700", "#FFA500"];
+
+      (function frame() {
+        confetti({
+          particleCount: 3,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0 },
+          colors: colors,
+        });
+        confetti({
+          particleCount: 3,
+          angle: 120,
+          spread: 55,
+          origin: { x: 1 },
+          colors: colors,
+        });
+
+        if (Date.now() < end) {
+          requestAnimationFrame(frame);
+        }
+      })();
+    }
+  }, [isComplete]);
 
   return (
     <div className="bg-white rounded-lg shadow-lg p-4 border border-gray-200">
