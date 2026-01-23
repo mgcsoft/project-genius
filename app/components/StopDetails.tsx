@@ -7,6 +7,7 @@ import type { TourStop } from "@/app/data/tourStops";
 interface StopDetailsProps {
   stop: TourStop;
   isVisited: boolean;
+  isClosing?: boolean;
   onClose: () => void;
   onMarkVisited: () => void;
   onNext?: () => void;
@@ -15,10 +16,12 @@ interface StopDetailsProps {
 export default function StopDetails({
   stop,
   isVisited,
+  isClosing = false,
   onClose,
   onMarkVisited,
   onNext,
 }: StopDetailsProps) {
+
   // Prevent body scroll when modal is open
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -40,15 +43,21 @@ export default function StopDetails({
     <>
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 animate-fade-in"
+        className={`fixed inset-0 bg-black/50 backdrop-blur-sm z-40 ${
+          isClosing ? "animate-fade-out" : "animate-fade-in"
+        }`}
         onClick={onClose}
       />
 
       {/* Modal */}
-      <div className="fixed inset-x-0 bottom-0 md:inset-0 md:flex md:items-center md:justify-center z-50 animate-slide-up">
-        <div className="bg-white dark:bg-gray-900 rounded-t-2xl md:rounded-2xl shadow-2xl w-full md:max-w-2xl md:max-h-[90vh] flex flex-col overflow-hidden">
+      <div
+        className={`fixed inset-x-0 bottom-0 md:inset-0 md:flex md:items-center md:justify-center z-50 ${
+          isClosing ? "animate-slide-down-exit" : "animate-slide-up"
+        }`}
+      >
+        <div className="bg-white dark:bg-gray-900 rounded-t-2xl md:rounded-2xl shadow-2xl w-full md:max-w-2xl max-h-[90vh] flex flex-col overflow-hidden">
           {/* Header */}
-          <div className="flex items-start justify-between p-6 border-b border-gray-200 dark:border-gray-700">
+          <div className="flex items-start justify-between p-6 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
             <div className="flex-1">
               <div className="text-sm text-blue-600 dark:text-blue-400 font-semibold mb-1">
                 {stop.shortTitle}
@@ -59,7 +68,7 @@ export default function StopDetails({
             </div>
             <button
               onClick={onClose}
-              className="ml-4 p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="ml-4 p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 flex-shrink-0"
               aria-label="Close"
             >
               <svg
@@ -79,12 +88,12 @@ export default function StopDetails({
           </div>
 
           {/* Audio Player */}
-          <div className="px-6 pt-4">
+          <div className="px-6 pt-4 flex-shrink-0">
             <AudioPlayer audioSrc={stop.audioFile} />
           </div>
 
-          {/* Content */}
-          <div className="flex-1 overflow-y-auto p-6 space-y-6">
+          {/* Content - Scrollable Area */}
+          <div className="flex-1 overflow-y-auto px-6 py-6 space-y-6 min-h-0">
             {/* Introduction */}
             <div>
               <p className="text-gray-700 dark:text-gray-300 leading-relaxed">

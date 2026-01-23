@@ -30,6 +30,7 @@ export default function LocationMap() {
   const [loading, setLoading] = useState(true);
   const [isLandscape, setIsLandscape] = useState(true);
   const [selectedStop, setSelectedStop] = useState<number | null>(null);
+  const [isClosingModal, setIsClosingModal] = useState(false);
   const [notificationStop, setNotificationStop] = useState<number | null>(null);
 
   // Custom hooks
@@ -151,9 +152,18 @@ export default function LocationMap() {
     const currentIndex = TOUR_STOPS.findIndex((s) => s.id === selectedStop);
     if (currentIndex < TOUR_STOPS.length - 1) {
       setSelectedStop(TOUR_STOPS[currentIndex + 1].id);
+      setIsClosingModal(false);
     } else {
-      setSelectedStop(null);
+      handleCloseModal();
     }
+  };
+
+  const handleCloseModal = () => {
+    setIsClosingModal(true);
+    setTimeout(() => {
+      setSelectedStop(null);
+      setIsClosingModal(false);
+    }, 300); // Match animation duration
   };
 
   const mapSrc = isLandscape
@@ -282,7 +292,8 @@ export default function LocationMap() {
         <StopDetails
           stop={selectedStopData}
           isVisited={isVisited(selectedStopData.id)}
-          onClose={() => setSelectedStop(null)}
+          isClosing={isClosingModal}
+          onClose={handleCloseModal}
           onMarkVisited={() => markAsVisited(selectedStopData.id)}
           onNext={
             selectedStopData.id < TOUR_STOPS.length ? handleNextStop : undefined
