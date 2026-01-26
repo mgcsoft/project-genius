@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "TU/e Campus Audio Tour - GENIUS Project",
-  description: "Interactieve audiotour van de TU/e campus met duurzame energiesystemen en innovatieve gebouwen",
+  title: "GENIUS Project - LUX Energy",
+  description: "GENIUS Project - Duurzame Energiesystemen",
 };
 
 export default function RootLayout({

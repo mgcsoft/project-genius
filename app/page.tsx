@@ -1,11 +1,15 @@
-import LocationMap from "./components/LocationMap";
+"use client";
+
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
-  return (
-    <div className="min-h-screen bg-zinc-50">
-      <main className="flex min-h-screen flex-col items-center justify-center">
-        <LocationMap />
-      </main>
-    </div>
-  );
+  const router = useRouter();
+
+  useEffect(() => {
+    // Fallback redirect if rewrite doesn't work
+    router.replace("/wandelroute");
+  }, [router]);
+
+  return null;
 }

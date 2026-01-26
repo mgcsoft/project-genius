@@ -96,3 +96,48 @@ body {
 .animate-fade-out {
   animation: fade-out 0.3s ease-in;
 }
+
+/* Header bottom divider line */
+.header-bottom-divider-line {
+  position: relative;
+}
+
+.header-bottom-divider-line::after {
+  content: "";
+  width: 100%;
+  height: 1px;
+  display: block;
+  background: linear-gradient(to left, transparent, rgba(0, 0, 0, 0.15), transparent);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+/* Responsive header padding (lux-header-padding) */
+.lux-header-padding {
+  padding: 0px 15px;
+}
+
+@media (min-width: 30rem) {
+  .lux-header-padding {
+    padding: 0px 15px;
+  }
+}
+
+@media (min-width: 48rem) {
+  .lux-header-padding {
+    padding: 0px 100px;
+  }
+}
+
+@media (min-width: 81.25rem) {
+  .lux-header-padding {
+    padding: 0px 200px;
+  }
+}
+
+@media (min-width: 100rem) {
+  .lux-header-padding {
+    padding: 0px 250px;
+  }
+}
