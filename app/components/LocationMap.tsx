@@ -13,12 +13,12 @@ import {
   hasShownNotification,
 } from "@/app/utils/storage";
 
-// GPS coordinates for the 4 corners of the map image (TU/e Campus)
+// GPS bounds for the map (TU/e Campus)
 const MAP_BOUNDS = {
-  topLeft: { lat: 51.45101760460129, lng: 5.496808389521499 },
-  topRight: { lat: 51.45101760460129, lng: 5.484095445898115 },
-  bottomLeft: { lat: 51.44556112034438, lng: 5.496808389521499 },
-  bottomRight: { lat: 51.44556112034438, lng: 5.484095445898115 },
+  minLat: 51.44556112034438,  // South
+  maxLat: 51.45101760460129,  // North
+  minLng: 5.484095445898115,  // West
+  maxLng: 5.496808389521499,  // East
 };
 
 interface Position {
@@ -56,40 +56,27 @@ export default function LocationMap() {
 
   // Convert GPS to percentage for user dot
   const gpsToPercent = (lat: number, lng: number) => {
-    const minLat = Math.min(
-      MAP_BOUNDS.bottomLeft.lat,
-      MAP_BOUNDS.bottomRight.lat,
-    );
-    const maxLat = Math.max(MAP_BOUNDS.topLeft.lat, MAP_BOUNDS.topRight.lat);
-    const minLng = Math.min(MAP_BOUNDS.topLeft.lng, MAP_BOUNDS.bottomLeft.lng);
-    const maxLng = Math.max(
-      MAP_BOUNDS.topRight.lng,
-      MAP_BOUNDS.bottomRight.lng,
-    );
-
-    const xPercent = (lng - minLng) / (maxLng - minLng);
-    const yPercent = (maxLat - lat) / (maxLat - minLat);
-
-    const x = isLandscape ? (1 - xPercent) * 100 : xPercent * 100;
-    const y = yPercent * 100;
-
-    return { x, y };
+    if (isLandscape) {
+      // Landscape: North=top, South=bottom, West=left, East=right
+      const x = ((lng - MAP_BOUNDS.minLng) / (MAP_BOUNDS.maxLng - MAP_BOUNDS.minLng)) * 100;
+      const y = ((MAP_BOUNDS.maxLat - lat) / (MAP_BOUNDS.maxLat - MAP_BOUNDS.minLat)) * 100;
+      return { x, y };
+    } else {
+      // Portrait: 90° CCW rotated (East=top, West=bottom, North=left, South=right)
+      const x = ((MAP_BOUNDS.maxLat - lat) / (MAP_BOUNDS.maxLat - MAP_BOUNDS.minLat)) * 100;
+      const y = ((MAP_BOUNDS.maxLng - lng) / (MAP_BOUNDS.maxLng - MAP_BOUNDS.minLng)) * 100;
+      return { x, y };
+    }
   };
 
   // Check if position is within map bounds
   const isWithinBounds = (lat: number, lng: number) => {
-    const minLat = Math.min(
-      MAP_BOUNDS.bottomLeft.lat,
-      MAP_BOUNDS.bottomRight.lat,
+    return (
+      lat >= MAP_BOUNDS.minLat &&
+      lat <= MAP_BOUNDS.maxLat &&
+      lng >= MAP_BOUNDS.minLng &&
+      lng <= MAP_BOUNDS.maxLng
     );
-    const maxLat = Math.max(MAP_BOUNDS.topLeft.lat, MAP_BOUNDS.topRight.lat);
-    const minLng = Math.min(MAP_BOUNDS.topLeft.lng, MAP_BOUNDS.bottomLeft.lng);
-    const maxLng = Math.max(
-      MAP_BOUNDS.topRight.lng,
-      MAP_BOUNDS.bottomRight.lng,
-    );
-
-    return lat >= minLat && lat <= maxLat && lng >= minLng && lng <= maxLng;
   };
 
   // Detect orientation changes
@@ -123,14 +110,6 @@ export default function LocationMap() {
       (position) => {
         const { latitude, longitude } = position.coords;
         setUserPosition({ lat: latitude, lng: longitude });
-
-        if (isWithinBounds(latitude, longitude)) {
-          setDotPosition(gpsToPercent(latitude, longitude));
-          setError(null);
-        } else {
-          setDotPosition(null);
-          setError("Je bevindt je buiten het kaartgebied");
-        }
         setLoading(false);
       },
       (err) => {
@@ -146,6 +125,22 @@ export default function LocationMap() {
 
     return () => navigator.geolocation.clearWatch(watchId);
   }, []);
+
+  // Update dot position when user position or orientation changes
+  useEffect(() => {
+    if (!userPosition) {
+      setDotPosition(null);
+      return;
+    }
+
+    if (isWithinBounds(userPosition.lat, userPosition.lng)) {
+      setDotPosition(gpsToPercent(userPosition.lat, userPosition.lng));
+      setError(null);
+    } else {
+      setDotPosition(null);
+      setError("Je bevindt je buiten het kaartgebied");
+    }
+  }, [userPosition, isLandscape]);
 
   // Show notification when user gets near a stop
   useEffect(() => {

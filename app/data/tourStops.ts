@@ -23,24 +23,33 @@ export interface TourStop {
   triggerRadius: number;
 }
 
+const MAP_BOUNDS = {
+  minLat: 51.44556112034438,  // South
+  maxLat: 51.45101760460129,  // North
+  minLng: 5.484095445898115,  // West
+  maxLng: 5.496808389521499,  // East
+};
+
 // Helper function to convert GPS to landscape map position
+// Landscape orientation: North=top, South=bottom, West=left, East=right
 const gpsToLandscape = (lat: number, lng: number) => {
-  const MAP_BOUNDS = {
-    topLeft: { lat: 51.45101760460129, lng: 5.496808389521499 },
-    topRight: { lat: 51.45101760460129, lng: 5.484095445898115 },
-    bottomLeft: { lat: 51.44556112034438, lng: 5.496808389521499 },
-    bottomRight: { lat: 51.44556112034438, lng: 5.484095445898115 },
-  };
+  // x-axis = longitude (West to East = left to right)
+  const xPercent = (lng - MAP_BOUNDS.minLng) / (MAP_BOUNDS.maxLng - MAP_BOUNDS.minLng);
+  // y-axis = latitude (North to South = top to bottom)
+  const yPercent = (MAP_BOUNDS.maxLat - lat) / (MAP_BOUNDS.maxLat - MAP_BOUNDS.minLat);
 
-  const minLat = Math.min(MAP_BOUNDS.bottomLeft.lat, MAP_BOUNDS.bottomRight.lat);
-  const maxLat = Math.max(MAP_BOUNDS.topLeft.lat, MAP_BOUNDS.topRight.lat);
-  const minLng = Math.min(MAP_BOUNDS.topLeft.lng, MAP_BOUNDS.bottomLeft.lng);
-  const maxLng = Math.max(MAP_BOUNDS.topRight.lng, MAP_BOUNDS.bottomRight.lng);
+  return { x: xPercent * 100, y: yPercent * 100 };
+};
 
-  const xPercent = (lng - minLng) / (maxLng - minLng);
-  const yPercent = (maxLat - lat) / (maxLat - minLat);
+// Helper function to convert GPS to portrait map position
+// Portrait orientation: 90° CCW rotated (East=top, West=bottom, North=left, South=right)
+const gpsToPortrait = (lat: number, lng: number) => {
+  // x-axis = latitude inverted (North to South = left to right)
+  const xPercent = (MAP_BOUNDS.maxLat - lat) / (MAP_BOUNDS.maxLat - MAP_BOUNDS.minLat);
+  // y-axis = longitude inverted (East to West = top to bottom)
+  const yPercent = (MAP_BOUNDS.maxLng - lng) / (MAP_BOUNDS.maxLng - MAP_BOUNDS.minLng);
 
-  return { x: (1 - xPercent) * 100, y: yPercent * 100 };
+  return { x: xPercent * 100, y: yPercent * 100 };
 };
 
 export const TOUR_STOPS: TourStop[] = [
@@ -52,7 +61,7 @@ export const TOUR_STOPS: TourStop[] = [
       gps: { lat: 51.44956011298008, lng: 5.4949600537464685 },
       mapPosition: {
         landscape: gpsToLandscape(51.44956011298008, 5.4949600537464685),
-        portrait: { x: 27.14, y: 14.25 },
+        portrait: gpsToPortrait(51.44956011298008, 5.4949600537464685),
       },
     },
     audioFile: "/audio/stop1.mp3",
@@ -84,7 +93,7 @@ export const TOUR_STOPS: TourStop[] = [
       gps: { lat: 51.45021598420962, lng: 5.496372603037956 },
       mapPosition: {
         landscape: gpsToLandscape(51.45021598420962, 5.496372603037956),
-        portrait: { x: 15.08, y: 3.21 },
+        portrait: gpsToPortrait(51.45021598420962, 5.496372603037956),
       },
     },
     audioFile: "/audio/stop2.mp3",
@@ -120,7 +129,7 @@ export const TOUR_STOPS: TourStop[] = [
       gps: { lat: 51.450425498630175, lng: 5.49272101284826 },
       mapPosition: {
         landscape: gpsToLandscape(51.450425498630175, 5.49272101284826),
-        portrait: { x: 12.81, y: 32.41 },
+        portrait: gpsToPortrait(51.450425498630175, 5.49272101284826),
       },
     },
     audioFile: "/audio/stop3.mp3",
@@ -152,7 +161,7 @@ export const TOUR_STOPS: TourStop[] = [
       gps: { lat: 51.44666334838292, lng: 5.495005135106835 },
       mapPosition: {
         landscape: gpsToLandscape(51.44666334838292, 5.495005135106835),
-        portrait: { x: 79.90, y: 13.00 },
+        portrait: gpsToPortrait(51.44666334838292, 5.495005135106835),
       },
     },
     audioFile: "/audio/stop4.mp3",
@@ -188,7 +197,7 @@ export const TOUR_STOPS: TourStop[] = [
       gps: { lat: 51.44724473348637, lng: 5.492124167524252 },
       mapPosition: {
         landscape: gpsToLandscape(51.44724473348637, 5.492124167524252),
-        portrait: { x: 69.35, y: 36.51 },
+        portrait: gpsToPortrait(51.44724473348637, 5.492124167524252),
       },
     },
     audioFile: "/audio/stop5.mp3",
@@ -220,7 +229,7 @@ export const TOUR_STOPS: TourStop[] = [
       gps: { lat: 51.446490271252905, lng: 5.487777090328055 },
       mapPosition: {
         landscape: gpsToLandscape(51.446490271252905, 5.487777090328055),
-        portrait: { x: 82.91, y: 70.70 },
+        portrait: gpsToPortrait(51.446490271252905, 5.487777090328055),
       },
     },
     audioFile: "/audio/stop6.mp3",
@@ -252,7 +261,7 @@ export const TOUR_STOPS: TourStop[] = [
       gps: { lat: 51.44777468574409, lng: 5.486364541036568 },
       mapPosition: {
         landscape: gpsToLandscape(51.44777468574409, 5.486364541036568),
-        portrait: { x: 59.05, y: 82.63 },
+        portrait: gpsToPortrait(51.44777468574409, 5.486364541036568),
       },
     },
     audioFile: "/audio/stop7.mp3",
@@ -288,7 +297,7 @@ export const TOUR_STOPS: TourStop[] = [
       gps: { lat: 51.44645383396237, lng: 5.484546259501781 },
       mapPosition: {
         landscape: gpsToLandscape(51.44645383396237, 5.484546259501781),
-        portrait: { x: 83.42, y: 97.23 },
+        portrait: gpsToPortrait(51.44645383396237, 5.484546259501781),
       },
     },
     audioFile: "/audio/stop8.mp3",
